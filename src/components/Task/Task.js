@@ -1,41 +1,26 @@
-import React, {Component} from 'react';
+import React from 'react';
+import { formatDistanceToNow } from 'date-fns';
 import './Task.css';
 
-class Task extends Component {
-  state = {
-    done: false
-  }
+const Task = ({label, done, dateCreate, onDeleted, onToggleDone}) => {
 
-  onCompletedClick = () => {
-    this.setState(( {done} ) => {
-      return {
-        done: !done
-      }
-    });
-  }
+  const date = formatDistanceToNow(dateCreate, {includeSeconds: true});
 
-  render() {
-    const {label, onDeleted} = this.props;
-    const {done} = this.state;
+  return (
+    <div className="view">
+      <input className="toggle" type="checkbox" defaultChecked={done} onClick={onToggleDone}/>
+      <label>
+        <span className="description">{label}</span>
+        <span className="created">created {date} ago</span>
+      </label>
+      <button className="icon icon-edit"></button>
+      <button className="icon icon-destroy" onClick={onDeleted}></button>
+    </div>
+  )
+}
 
-    let classNames = 'todo-item';
-    if (done) {
-      classNames += ' completed';
-    }
-
-    return (
-      <li className={classNames}>
-        <div className="view">
-          <input className="toggle" type="checkbox" onClick={this.onCompletedClick}/>
-          <label>
-            <span className="description">{label}</span>
-          </label>
-          <button className="icon icon-edit"></button>
-          <button className="icon icon-destroy" onClick={onDeleted}></button>
-        </div>
-      </li>
-    )
-  }
+Task.defaultProps = {
+  ontoggleDone: () => {}
 }
 
 export default Task
