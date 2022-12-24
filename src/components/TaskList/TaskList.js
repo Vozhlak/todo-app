@@ -5,7 +5,7 @@ import Task from '../Task/Task';
 const TaskList = ({ tasks, onDeleted, onToggleDone }) => {
   const task = tasks.map((el) => {
     const { id, ...itemProps } = el;
-    let classNameItems = 'todo-item';
+    let classNameItems = 'todo-item'
 
     if (itemProps.done) {
       classNameItems += ' completed';
