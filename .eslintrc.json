@@ -26,6 +26,7 @@
     "semi": "error",
     "no-console": "warn",
     "no-unused-vars": "off",
-    "prefer-arrow-callback": "off"
+    "prefer-arrow-callback": "off",
+    "jsx-a11y/no-autofocus": "off"
   }
 }
