@@ -17,8 +17,7 @@
     "build": "react-scripts build",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
-    "format": "prettier --write src/**/*.js",
-    "prepare": "husky install"
+    "format": "prettier --write src/**/*.js"
   },
   "eslintConfig": {
     "extends": [
