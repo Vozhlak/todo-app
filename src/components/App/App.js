@@ -7,10 +7,30 @@ import Footer from '../Footer/Footer';
 class App extends Component {
   state = {
     tasks: [
-      this.createItem('Выполнить все задания', new Date('2022-12-20T00:10:56')),
-      this.createItem('Пройти все ревью', new Date('2022-12-20T00:20:00')),
-
-      this.createItem('Найти работу'),
+      {
+        id:
+          new Date().getMilliseconds() +
+          Math.floor(Math.random() * 1000000 + 1000000),
+        label: 'Выполнить все задания',
+        dateCreate: new Date('2022-12-20T00:10:56'),
+        done: false,
+      },
+      {
+        id:
+          new Date().getMilliseconds() +
+          Math.floor(Math.random() * 1000000 + 1000000),
+        label: 'Пройти все ревью',
+        dateCreate: new Date('2022-12-20T00:20:00'),
+        done: false,
+      },
+      {
+        id:
+          new Date().getMilliseconds() +
+          Math.floor(Math.random() * 1000000 + 1000000),
+        label: 'Найти работу',
+        dateCreate: new Date(),
+        done: false,
+      },
     ],
     filter: 'all',
   };
@@ -22,7 +42,6 @@ class App extends Component {
         Math.floor(Math.random() * 1000000 + 1000000),
       label,
       dateCreate,
-
       done: false,
     };
   };
@@ -48,9 +67,9 @@ class App extends Component {
   };
 
   toggleProperty = (arr, id, propName) => {
-    const idx = this.arr.findIndex((el) => el.id === id);
+    const idx = arr.findIndex((el) => el.id === id);
 
-    const oldItem = this.arr[idx];
+    const oldItem = arr[idx];
     const newItem = {
       ...oldItem,
       [propName]: !oldItem[propName],
@@ -82,13 +101,13 @@ class App extends Component {
   filter = (items, filter) => {
     switch (filter) {
       case 'all':
-        return this.items;
+        return items;
       case 'active':
-        return this.items.filter((task) => !task.done);
+        return items.filter((task) => !task.done);
       case 'completed':
-        return this.items.filter((task) => task.done);
+        return items.filter((task) => task.done);
       default:
-        return this.items;
+        return items;
     }
   };
 
