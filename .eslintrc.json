@@ -23,7 +23,7 @@
     "class-methods-use-this": "off",
     "react/prop-types": "off",
     "arrow-body-style": "off",
-    "semi": "off",
+    "semi": "error",
     "no-console": "warn",
     "no-unused-vars": "off",
     "prefer-arrow-callback": "off"
