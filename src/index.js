@@ -6,8 +6,7 @@ import App from './components/App/App';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const str = '';
 const str1 = '';
-const str2 = ''
-const str3 = ''
+const str2 = '';
 root.render(
   <React.StrictMode>
     <App />
