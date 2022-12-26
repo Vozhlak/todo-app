@@ -2,7 +2,7 @@ import React from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import './Task.css';
 
-const Task = ({ label, done, dateCreate, onDeleted, onToggleDone }) => {
+function Task({ label, done, dateCreate, onDeleted, onToggleDone }) {
   const date = formatDistanceToNow(dateCreate, { includeSeconds: true });
 
   return (
@@ -17,11 +17,11 @@ const Task = ({ label, done, dateCreate, onDeleted, onToggleDone }) => {
         <span className="description">{label}</span>
         <span className="created">created {date} ago</span>
       </label>
-      <button className="icon icon-edit"></button>
-      <button className="icon icon-destroy" onClick={onDeleted}></button>
+      <button className="icon icon-edit" />
+      <button className="icon icon-destroy" onClick={onDeleted} />
     </div>
   );
-};
+}
 
 Task.defaultProps = {
   dateCreate: new Date(),

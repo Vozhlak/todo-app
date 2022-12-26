@@ -4,7 +4,7 @@
     "es2021": true
   },
   "extends": [
-    "airbnb-base",
+    "airbnb",
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:react/jsx-runtime",
@@ -27,6 +27,10 @@
     "no-console": "warn",
     "no-unused-vars": "off",
     "prefer-arrow-callback": "off",
-    "jsx-a11y/no-autofocus": "off"
+    "jsx-a11y/no-autofocus": "off",
+    "react/button-has-type": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "react/state-in-constructor": "off",
+    "react/destructuring-assignment": "off"
   }
 }

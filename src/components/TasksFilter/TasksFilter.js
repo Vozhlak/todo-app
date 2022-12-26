@@ -1,7 +1,7 @@
 import React from 'react';
 import './TasksFilter.css';
 
-const TasksFilter = ({ onChangeFilter, filter }) => {
+function TasksFilter({ onChangeFilter, filter }) {
   const buttonsFiltered = [
     { name: 'all', label: 'All' },
     { name: 'active', label: 'Active' },
@@ -21,6 +21,6 @@ const TasksFilter = ({ onChangeFilter, filter }) => {
   });
 
   return <ul className="filters">{buttons}</ul>;
-};
+}
 
 export default TasksFilter;
