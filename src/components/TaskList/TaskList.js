@@ -29,7 +29,7 @@ function TaskList({ tasks, onDeleted, onToggleDone }) {
 }
 
 TaskList.defaultProps = {
-  tasks: [{}],
+  tasks: [],
   onDeleted: () => {},
   onToggleDone: () => {},
 };

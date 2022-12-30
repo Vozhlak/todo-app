@@ -14,12 +14,21 @@ function Task({ label, done, dateCreate, onDeleted, onToggleDone }) {
         defaultChecked={done}
         onClick={onToggleDone}
       />
-      <label>
+      <label htmlFor="label">
         <span className="description">{label}</span>
-        <span className="created">created {date} ago</span>
+        <span className="created">
+          created
+          {date}
+          ago
+        </span>
       </label>
-      <button className="icon icon-edit" type="button" />
-      <button className="icon icon-destroy" onClick={onDeleted} type="button" />
+      <button className="icon icon-edit" type="button" aria-label="btn-edit" />
+      <button
+        className="icon icon-destroy"
+        onClick={onDeleted}
+        type="button"
+        aria-label="btn-delete"
+      />
     </div>
   );
 }
