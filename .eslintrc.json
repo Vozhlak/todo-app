@@ -13,24 +13,33 @@
     "plugin:import/recommended",
     "prettier"
   ],
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
+    "parser": "@babel/eslint-parser",
     "ecmaVersion": "latest",
-    "sourceType": "module"
+    "sourceType": "module",
+    "requireConfigFile": false,
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "babelOptions": {
+      "parserOpts": {
+        "plugins": ["jsx"]
+      }
+    }
   },
-  "plugins": ["react"],
+  "plugins": [
+    "react",
+    "jsx-a11y",
+    "import",
+    "@babel"
+  ],
   "rules": {
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "class-methods-use-this": "off",
-    "react/prop-types": "off",
-    "arrow-body-style": "off",
-    "semi": "error",
-    "no-console": "warn",
-    "no-unused-vars": "off",
-    "prefer-arrow-callback": "off",
+    "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx"] }],
     "jsx-a11y/no-autofocus": "off",
-    "react/button-has-type": "off",
     "jsx-a11y/label-has-associated-control": "off",
-    "react/state-in-constructor": "off",
-    "react/destructuring-assignment": "off"
+    "react/state-in-constructor": ["error", "never"],
+    "react/jsx-uses-react": ["error"],
+    "class-methods-use-this": ["error", { "enforceForClassFields": false}]
   }
 }

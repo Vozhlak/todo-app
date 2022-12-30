@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-
 import './NewTaskForm.css';
+import PropTypes from 'prop-types';
 
 export default class NewTaskForm extends Component {
   state = {
@@ -14,7 +14,9 @@ export default class NewTaskForm extends Component {
   addItem = (e) => {
     if (e.key === 'Enter') {
       if (e.target.value) {
-        this.props.onAddItem(this.state.value);
+        const { onAddItem } = this.props;
+        const { value } = this.state;
+        onAddItem(value);
         this.setState({ value: '' });
       }
     }
@@ -35,3 +37,11 @@ export default class NewTaskForm extends Component {
     );
   }
 }
+
+NewTaskForm.defaultProps = {
+  onAddItem: () => {},
+};
+
+NewTaskForm.propTypes = {
+  onAddItem: PropTypes.func,
+};

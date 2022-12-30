@@ -1,50 +1,23 @@
 import React, { Component } from 'react';
 import './App.css';
-import TaskList from '../TaskList/TaskList';
 import NewTaskForm from '../NewTaskForm/NewTaskForm';
+import TaskList from '../TaskList/TaskList';
 import Footer from '../Footer/Footer';
 
 class App extends Component {
   state = {
-    tasks: [
-      {
-        id:
-          new Date().getMilliseconds() +
-          Math.floor(Math.random() * 1000000 + 1000000),
-        label: 'Выполнить все задания',
-        dateCreate: new Date('2022-12-20T00:10:56'),
-        done: false,
-      },
-      {
-        id:
-          new Date().getMilliseconds() +
-          Math.floor(Math.random() * 1000000 + 1000000),
-        label: 'Пройти все ревью',
-        dateCreate: new Date('2022-12-20T00:20:00'),
-        done: false,
-      },
-      {
-        id:
-          new Date().getMilliseconds() +
-          Math.floor(Math.random() * 1000000 + 1000000),
-        label: 'Найти работу',
-        dateCreate: new Date(),
-        done: false,
-      },
-    ],
+    tasks: [],
     filter: 'all',
   };
 
-  createItem = (label, dateCreate = new Date()) => {
-    return {
-      id:
-        new Date().getMilliseconds() +
-        Math.floor(Math.random() * 1000000 + 1000000),
-      label,
-      dateCreate,
-      done: false,
-    };
-  };
+  createItem = (label, dateCreate = new Date()) => ({
+    id:
+      new Date().getMilliseconds() +
+      Math.floor(Math.random() * 1000000 + 1000000),
+    label,
+    dateCreate,
+    done: false,
+  });
 
   deleteItem = (id) => {
     this.setState(({ tasks }) => {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import './Task.css';
+import PropTypes from 'prop-types';
 
 function Task({ label, done, dateCreate, onDeleted, onToggleDone }) {
   const date = formatDistanceToNow(dateCreate, { includeSeconds: true });
@@ -17,26 +18,26 @@ function Task({ label, done, dateCreate, onDeleted, onToggleDone }) {
         <span className="description">{label}</span>
         <span className="created">created {date} ago</span>
       </label>
-      <button className="icon icon-edit" />
-      <button className="icon icon-destroy" onClick={onDeleted} />
+      <button className="icon icon-edit" type="button" />
+      <button className="icon icon-destroy" onClick={onDeleted} type="button" />
     </div>
   );
 }
 
 Task.defaultProps = {
+  label: '',
+  done: false,
   dateCreate: new Date(),
+  onDeleted: () => {},
+  onToggleDone: () => {},
 };
 
 Task.propTypes = {
-  dateCreate: (props, propName, componentName) => {
-    const value = props[propName];
-
-    if (value instanceof Date && typeof value === 'object') {
-      return null;
-    }
-
-    return new TypeError(`${componentName}: ${propName} must be date`);
-  },
+  label: PropTypes.string,
+  done: PropTypes.bool,
+  dateCreate: PropTypes.instanceOf(Date),
+  onDeleted: PropTypes.func,
+  onToggleDone: PropTypes.func,
 };
 
 export default Task;
