@@ -16,11 +16,7 @@ function Task({ label, done, dateCreate, onDeleted, onToggleDone }) {
       />
       <label htmlFor="label">
         <span className="description">{label}</span>
-        <span className="created">
-          created
-          {date}
-          ago
-        </span>
+        <span className="created">{`created ${date} ago`}</span>
       </label>
       <button className="icon icon-edit" type="button" aria-label="btn-edit" />
       <button
@@ -38,7 +34,7 @@ Task.defaultProps = {
   done: false,
   dateCreate: new Date(),
   onDeleted: () => {},
-  onToggleDone: () => {},
+  onToggleDone: () => {}
 };
 
 Task.propTypes = {
@@ -46,7 +42,7 @@ Task.propTypes = {
   done: PropTypes.bool,
   dateCreate: PropTypes.instanceOf(Date),
   onDeleted: PropTypes.func,
-  onToggleDone: PropTypes.func,
+  onToggleDone: PropTypes.func
 };
 
 export default Task;

@@ -31,20 +31,20 @@ function TaskList({ tasks, onDeleted, onToggleDone }) {
 TaskList.defaultProps = {
   tasks: [],
   onDeleted: () => {},
-  onToggleDone: () => {},
+  onToggleDone: () => {}
 };
 
 TaskList.propTypes = {
   tasks: PropTypes.arrayOf((propValue, key, componentName, propFullName) => {
     if (!Array.from(propValue)) {
       return new Error(
-        `Invalid prop ${propFullName} supplied to ${componentName}. Validation failed.`,
+        `Invalid prop ${propFullName} supplied to ${componentName}. Validation failed.`
       );
     }
     return null;
   }),
   onDeleted: PropTypes.func,
-  onToggleDone: PropTypes.func,
+  onToggleDone: PropTypes.func
 };
 
 export default TaskList;

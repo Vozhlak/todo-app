@@ -6,7 +6,7 @@ function TasksFilter({ onChangeFilter, filter }) {
   const buttonsFiltered = [
     { name: 'all', label: 'All' },
     { name: 'active', label: 'Active' },
-    { name: 'completed', label: 'Completed' },
+    { name: 'completed', label: 'Completed' }
   ];
 
   const buttons = buttonsFiltered.map(({ name, label }) => {
@@ -17,8 +17,7 @@ function TasksFilter({ onChangeFilter, filter }) {
         <button
           className={classNames}
           onClick={() => onChangeFilter(name)}
-          type="button"
-        >
+          type="button">
           {label}
         </button>
       </li>
@@ -30,12 +29,12 @@ function TasksFilter({ onChangeFilter, filter }) {
 
 TasksFilter.defaultProps = {
   onChangeFilter: () => {},
-  filter: 'all',
+  filter: 'all'
 };
 
 TasksFilter.propTypes = {
   onChangeFilter: PropTypes.func,
-  filter: PropTypes.string,
+  filter: PropTypes.string
 };
 
 export default TasksFilter;

@@ -5,10 +5,14 @@ import TaskList from '../TaskList/TaskList';
 import Footer from '../Footer/Footer';
 
 class App extends Component {
-  state = {
-    tasks: [],
-    filter: 'all',
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      tasks: [],
+      filter: 'all'
+    };
+  }
 
   createItem = (label, dateCreate = new Date()) => ({
     id:
@@ -16,14 +20,14 @@ class App extends Component {
       Math.floor(Math.random() * 1000000 + 1000000),
     label,
     dateCreate,
-    done: false,
+    done: false
   });
 
   deleteItem = (id) => {
     this.setState(({ tasks }) => {
       const newTaskData = tasks.filter((el) => el.id !== id);
       return {
-        tasks: newTaskData,
+        tasks: newTaskData
       };
     });
   };
@@ -34,7 +38,7 @@ class App extends Component {
       const newData = [newItem, ...tasks];
 
       return {
-        tasks: newData,
+        tasks: newData
       };
     });
   };
@@ -45,7 +49,7 @@ class App extends Component {
     const oldItem = arr[idx];
     const newItem = {
       ...oldItem,
-      [propName]: !oldItem[propName],
+      [propName]: !oldItem[propName]
     };
 
     return [...arr.slice(0, idx), newItem, ...arr.slice(idx + 1)];
@@ -53,7 +57,7 @@ class App extends Component {
 
   onToggleDone = (id) => {
     this.setState(({ tasks }) => ({
-      tasks: this.toggleProperty(tasks, id, 'done'),
+      tasks: this.toggleProperty(tasks, id, 'done')
     }));
   };
 
@@ -62,7 +66,7 @@ class App extends Component {
       const completedTasks = tasks.filter((task) => !task.done);
 
       return {
-        tasks: completedTasks,
+        tasks: completedTasks
       };
     });
   };

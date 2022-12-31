@@ -3,9 +3,13 @@ import './NewTaskForm.css';
 import PropTypes from 'prop-types';
 
 export default class NewTaskForm extends Component {
-  state = {
-    value: '',
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      value: ''
+    };
+  }
 
   changeInput = (e) => {
     this.setState({ value: e.target.value });
@@ -39,9 +43,9 @@ export default class NewTaskForm extends Component {
 }
 
 NewTaskForm.defaultProps = {
-  onAddItem: () => {},
+  onAddItem: () => {}
 };
 
 NewTaskForm.propTypes = {
-  onAddItem: PropTypes.func,
+  onAddItem: PropTypes.func
 };

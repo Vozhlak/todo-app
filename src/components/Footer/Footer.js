@@ -13,8 +13,7 @@ function Footer({ countItems, allDeleteItems, onChangeFilter, filter }) {
       <button
         className="clear-completed"
         onClick={allDeleteItems}
-        type="button"
-      >
+        type="button">
         Clear completed
       </button>
     </footer>
@@ -25,14 +24,14 @@ Footer.defaultProps = {
   countItems: 0,
   allDeleteItems: () => {},
   onChangeFilter: () => {},
-  filter: 'all',
+  filter: 'all'
 };
 
 Footer.propTypes = {
   countItems: PropTypes.number,
   allDeleteItems: PropTypes.func,
   onChangeFilter: PropTypes.func,
-  filter: PropTypes.string,
+  filter: PropTypes.string
 };
 
 export default Footer;
