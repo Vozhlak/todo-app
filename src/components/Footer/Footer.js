@@ -1,8 +1,6 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 
 import TasksFilter from '../TasksFilter/TasksFilter';
-
 import './Footer.css';
 
 function Footer({ countItems, allDeleteItems, onChangeFilter, filter }) {

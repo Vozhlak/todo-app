@@ -3,10 +3,19 @@
     "browser": true,
     "es2021": true
   },
+  "ignorePatterns": [
+    "node_modules",
+    "dist", "build"
+  ],
   "extends": [
     "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:import/errors",
+    "plugin:import/warnings",
     "airbnb",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "prettier"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -17,15 +26,51 @@
   },
   "plugins": [
     "react",
+    "jsx-a11y",
     "import",
-    "jsx-a11y"
+    "react-hooks",
+    "prettier"
   ],
   "rules": {
-    "class-methods-use-this": ["error", { "enforceForClassFields": false }],
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "comma-dangle": ["error", "never"],
+    "react/state-in-constructor": "off",
+    "jsx-a11y/label-has-associated-control": 0,
     "jsx-a11y/no-autofocus": "off",
-    "semi": "error",
-    "operator-linebreak": ["error", "after"]
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": 0,
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "indent": ["off"],
+    "prettier/prettier": "error",
+    "linebreak-style": [0, "unix"],
+    "quotes": ["error", "single"],
+    "import/no-unresolved": [2, { "caseSensitive": false }],
+    "class-methods-use-this": "off",
+    "import/order": [
+      2,
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ],
+        "newlines-between": "always-and-inside-groups"
+      }
+    ]
+  },
+  "settings": {
+    "version": "detect",
+    "import/resolver": {
+      "node": {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ],
+        "moduleDirectory": ["node_modules", "./src/"]
+      }
+    }
   }
 }

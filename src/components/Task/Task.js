@@ -1,4 +1,3 @@
-import React from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import './Task.css';
 import PropTypes from 'prop-types';

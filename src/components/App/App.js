@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
+
 import './App.css';
 import NewTaskForm from '../NewTaskForm/NewTaskForm';
 import TaskList from '../TaskList/TaskList';
