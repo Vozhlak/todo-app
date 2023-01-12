@@ -6,23 +6,27 @@ function Task({ label, done, dateCreate, onDeleted, onToggleDone }) {
   const date = formatDistanceToNow(dateCreate, { includeSeconds: true });
 
   return (
-    <div className="view">
+    <div className='view'>
       <input
-        className="toggle"
-        type="checkbox"
+        className='toggle'
+        type='checkbox'
         defaultChecked={done}
         onClick={onToggleDone}
       />
-      <label htmlFor="label">
-        <span className="description">{label}</span>
-        <span className="created">{`created ${date} ago`}</span>
+      <label htmlFor='label'>
+        <span className='description'>{label}</span>
+        <span className='created'>{`created ${date} ago`}</span>
       </label>
-      <button className="icon icon-edit" type="button" aria-label="btn-edit" />
       <button
-        className="icon icon-destroy"
+        className='icon icon-edit'
+        type='button'
+        aria-label='btn-edit'
+      />
+      <button
+        className='icon icon-destroy'
         onClick={onDeleted}
-        type="button"
-        aria-label="btn-delete"
+        type='button'
+        aria-label='btn-delete'
       />
     </div>
   );

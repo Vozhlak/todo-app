@@ -13,7 +13,9 @@ function TaskList({ tasks, onDeleted, onToggleDone }) {
     }
 
     return (
-      <li className={classNameItems} key={id}>
+      <li
+        className={classNameItems}
+        key={id}>
         <Task
           label={label}
           done={done}
@@ -25,7 +27,7 @@ function TaskList({ tasks, onDeleted, onToggleDone }) {
     );
   });
 
-  return <ul className="todo-list">{task}</ul>;
+  return <ul className='todo-list'>{task}</ul>;
 }
 
 TaskList.defaultProps = {

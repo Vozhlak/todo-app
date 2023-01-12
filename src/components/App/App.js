@@ -95,12 +95,12 @@ class App extends Component {
     const countItems = tasks.filter((el) => !el.done).length;
 
     return (
-      <section className="todoapp">
-        <header className="header">
+      <section className='todoapp'>
+        <header className='header'>
           <h1>todos</h1>
           <NewTaskForm onAddItem={this.onAddItem} />
         </header>
-        <section className="main">
+        <section className='main'>
           <TaskList
             tasks={visibleItems}
             onDeleted={this.deleteItem}

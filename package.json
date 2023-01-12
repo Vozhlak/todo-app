@@ -16,9 +16,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "lint": "eslint ./src",
-    "lint:fix": "eslint ./src --fix",
-    "format": "prettier --write ./src",
+    "lint": "eslint ./src/**/*.{js,jsx,ts,tsx}",
+    "lint:fix": "eslint ./src/**/*.{js,jsx,ts,tsx} --fix",
+    "format": "prettier --write ./src/**/*.{js,jsx,ts,tsx}",
     "prepare": "husky install"
   },
   "eslintConfig": {
@@ -62,7 +62,7 @@
     }
   },
   "lint-staged": {
-    "*.js": [
+    "*.{js,jsx,ts,tsx}": [
       "npm run lint:fix",
       "npm run format"
     ]
