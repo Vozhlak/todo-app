@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './TaskList.css';
 import Task from '../Task/Task';
 
-function TaskList({ tasks, onDeleted, onToggleDone }) {
+const TaskList = ({ tasks, onDeleted, onToggleDone }) => {
   const task = tasks.map((el) => {
     const { id, label, done, dateCreate } = el;
     let classNameItems = 'todo-item';
@@ -28,7 +28,7 @@ function TaskList({ tasks, onDeleted, onToggleDone }) {
   });
 
   return <ul className='todo-list'>{task}</ul>;
-}
+};
 
 TaskList.defaultProps = {
   tasks: [],

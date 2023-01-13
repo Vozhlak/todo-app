@@ -3,6 +3,7 @@
     "browser": true,
     "es2021": true
   },
+  "ignorePatterns": ["node_modules", "dist", "build"],
   "extends": [
     "airbnb",
 		"prettier"
@@ -14,7 +15,7 @@
       "jsx": true
     }
   },
-  "plugins": ["react", "prettier"],
+  "plugins": ["react"],
   "rules": {
 		"react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
 		"comma-dangle": ["off"],
@@ -31,17 +32,7 @@
     "jsx-a11y/no-autofocus": "off",
     "linebreak-style": [0, "unix"],
     "operator-linebreak": ["error", "after"],
-		"semi": "off",
-		"prettier/prettier": ["error", {
-			"semi": true,
-			"singleQuote": true,
-			"jsxSingleQuote": true,
-      "trailingComma": "none",
-      "endOfLine": "auto",
-      "bracketSameLine": true,
-      "jsxBracketSameLine": true,
-      "singleAttributePerLine": true
-		}]
+		"semi": "off"
 	},
 	"settings": {
     "react": {
