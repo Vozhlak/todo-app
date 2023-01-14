@@ -16,14 +16,14 @@ function TasksFilter({ onChangeFilter, filter }) {
         <button
           className={classNames}
           onClick={() => onChangeFilter(name)}
-          type="button">
+          type='button'>
           {label}
         </button>
       </li>
     );
   });
 
-  return <ul className="filters">{buttons}</ul>;
+  return <ul className='filters'>{buttons}</ul>;
 }
 
 TasksFilter.defaultProps = {

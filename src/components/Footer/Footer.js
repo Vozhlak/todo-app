@@ -5,13 +5,16 @@ import './Footer.css';
 
 function Footer({ countItems, allDeleteItems, onChangeFilter, filter }) {
   return (
-    <footer className="footer">
-      <span className="todo-count">{countItems} items left</span>
-      <TasksFilter onChangeFilter={onChangeFilter} filter={filter} />
+    <footer className='footer'>
+      <span className='todo-count'>{countItems} items left</span>
+      <TasksFilter
+        onChangeFilter={onChangeFilter}
+        filter={filter}
+      />
       <button
-        className="clear-completed"
+        className='clear-completed'
         onClick={allDeleteItems}
-        type="button">
+        type='button'>
         Clear completed
       </button>
     </footer>

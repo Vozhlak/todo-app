@@ -6,13 +6,19 @@ import TaskList from '../TaskList/TaskList';
 import Footer from '../Footer/Footer';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
+  state = {
+    tasks: [],
+    filter: 'all'
+  };
 
-    this.state = {
-      tasks: [],
-      filter: 'all'
-    };
+  interval = 0;
+
+  componentDidMount() {
+    this.interval = setInterval(this.runTimer, 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   createItem = (label, dateCreate = new Date()) => ({
@@ -21,6 +27,8 @@ class App extends Component {
       Math.floor(Math.random() * 1000000 + 1000000),
     label,
     dateCreate,
+    time: 0,
+    pause: false,
     done: false
   });
 
@@ -33,8 +41,9 @@ class App extends Component {
     });
   };
 
-  onAddItem = (text) => {
+  onAddItem = (text, time = 0) => {
     const newItem = this.createItem(text);
+    newItem.time = Number.isNaN(time) ? 0 : time;
     this.setState(({ tasks }) => {
       const newData = [newItem, ...tasks];
 
@@ -65,7 +74,6 @@ class App extends Component {
   allDeleteItems = () => {
     this.setState(({ tasks }) => {
       const completedTasks = tasks.filter((task) => !task.done);
-
       return {
         tasks: completedTasks
       };
@@ -89,22 +97,57 @@ class App extends Component {
     }
   };
 
+  runTimer = () => {
+    const { tasks } = this.state;
+    const newTasks = tasks.map((el) => {
+      if (el.time === 0) {
+        return el;
+      }
+      if (!el.pause) {
+        el.time -= 1;
+      }
+      return el;
+    });
+
+    this.setState({ tasks: newTasks });
+  };
+
+  stopTimer = (id) => {
+    this.setState(({ tasks }) => ({
+      tasks: this.togglePause(tasks, id, true)
+    }));
+  };
+
+  startTimer = (id) => {
+    this.setState(({ tasks }) => ({
+      tasks: this.togglePause(tasks, id, false)
+    }));
+  };
+
+  togglePause = (tasks, id, isPause) => {
+    const idx = tasks.findIndex((el) => el.id === id);
+    const newObj = [{ ...tasks[idx], pause: isPause }];
+    return [...tasks.slice(0, idx), ...newObj, ...tasks.slice(idx + 1)];
+  };
+
   render() {
     const { tasks, filter } = this.state;
     const visibleItems = this.filter(tasks, filter);
     const countItems = tasks.filter((el) => !el.done).length;
 
     return (
-      <section className="todoapp">
-        <header className="header">
+      <section className='todoapp'>
+        <header className='header'>
           <h1>todos</h1>
           <NewTaskForm onAddItem={this.onAddItem} />
         </header>
-        <section className="main">
+        <section className='main'>
           <TaskList
             tasks={visibleItems}
             onDeleted={this.deleteItem}
             onToggleDone={this.onToggleDone}
+            stopTimer={this.stopTimer}
+            startTimer={this.startTimer}
           />
           <Footer
             countItems={countItems}
