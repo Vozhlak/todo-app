@@ -1,62 +1,71 @@
+/* eslint-disable no-unused-vars */
 import { formatDistanceToNow } from 'date-fns';
 import './Task.css';
+import Timer from '../Timer/Timer';
+import TaskEditingForm from '../TaskEditingForm/TaskEditingForm';
 
 function Task({
+  id,
   label,
   done,
   dateCreate,
   onDeleted,
   onToggleDone,
+  toggleIsEditTask,
+  onEditTask,
+  time,
   startTimer,
   stopTimer,
-  time
+  toggleActiveTimer,
+  isRunTimer,
+  isTimer
 }) {
   const date = formatDistanceToNow(dateCreate, { includeSeconds: true });
-  const formatTime = `${Math.floor(time / 60)
-    .toString()
-    .padStart(2, '0')}:${Math.floor(time % 60)
-    .toString()
-    .padStart(2, '0')}`;
+  const timer = isTimer ? (
+    <Timer
+      startTimer={startTimer}
+      stopTimer={stopTimer}
+      time={time}
+      toggleActiveTimer={toggleActiveTimer}
+      isRunTimer={isRunTimer}
+      done={done}
+    />
+  ) : null;
 
   return (
-    <div className='view'>
-      <input
-        className='toggle'
-        type='checkbox'
-        defaultChecked={done}
-        onClick={onToggleDone}
+    <>
+      <div className='view'>
+        <input
+          className='toggle'
+          type='checkbox'
+          defaultChecked={done}
+          onClick={onToggleDone}
+        />
+        <label htmlFor='label'>
+          <span className='description'>{label}</span>
+          <span className='description'>{timer}</span>
+          <span className='created'>{`created ${date} ago`}</span>
+        </label>
+        <button
+          className='icon icon-edit'
+          type='button'
+          aria-label='btn-edit'
+          onClick={toggleIsEditTask}
+        />
+        <button
+          className='icon icon-destroy'
+          type='button'
+          aria-label='btn-delete'
+          onClick={onDeleted}
+        />
+      </div>
+      <TaskEditingForm
+        toggleIsEditTask={toggleIsEditTask}
+        onEditTask={onEditTask}
+        id={id}
+        labelTask={label}
       />
-      <label htmlFor='label'>
-        <span className='description'>{label}</span>
-        <span className='description'>
-          <button
-            className='icon icon-play'
-            type='button'
-            aria-label='btn-play-timer'
-            onClick={startTimer}
-          />
-          <button
-            className='icon icon-pause'
-            type='button'
-            aria-label='btn-pause-timer'
-            onClick={stopTimer}
-          />
-          {formatTime}
-        </span>
-        <span className='created'>{`created ${date} ago`}</span>
-      </label>
-      <button
-        className='icon icon-edit'
-        type='button'
-        aria-label='btn-edit'
-      />
-      <button
-        className='icon icon-destroy'
-        onClick={onDeleted}
-        type='button'
-        aria-label='btn-delete'
-      />
-    </div>
+    </>
   );
 }
 

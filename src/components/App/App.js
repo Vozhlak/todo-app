@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 import { Component } from 'react';
 
 import './App.css';
@@ -8,18 +9,9 @@ import Footer from '../Footer/Footer';
 class App extends Component {
   state = {
     tasks: [],
+    idTimers: [],
     filter: 'all'
   };
-
-  interval = 0;
-
-  componentDidMount() {
-    this.interval = setInterval(this.runTimer, 1000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  }
 
   createItem = (label, dateCreate = new Date()) => ({
     id:
@@ -28,8 +20,10 @@ class App extends Component {
     label,
     dateCreate,
     time: 0,
-    pause: false,
-    done: false
+    done: false,
+    isEdit: false,
+    isRunTimer: false,
+    isTimer: false
   });
 
   deleteItem = (id) => {
@@ -44,6 +38,7 @@ class App extends Component {
   onAddItem = (text, time = 0) => {
     const newItem = this.createItem(text);
     newItem.time = Number.isNaN(time) ? 0 : time;
+    newItem.isTimer = time > 0;
     this.setState(({ tasks }) => {
       const newData = [newItem, ...tasks];
 
@@ -69,6 +64,25 @@ class App extends Component {
     this.setState(({ tasks }) => ({
       tasks: this.toggleProperty(tasks, id, 'done')
     }));
+  };
+
+  toggleIsEditTask = (id) => {
+    this.setState(({ tasks }) => ({
+      tasks: this.toggleProperty(tasks, id, 'isEdit')
+    }));
+  };
+
+  onEditTask = (id, newText) => {
+    const { tasks } = this.state;
+    const idx = tasks.findIndex((item) => item.id === id);
+    const newItem = {
+      ...tasks[idx],
+      label: newText
+    };
+
+    this.setState({
+      tasks: [...tasks.slice(0, idx), newItem, ...tasks.slice(idx + 1)]
+    });
   };
 
   allDeleteItems = () => {
@@ -97,41 +111,64 @@ class App extends Component {
     }
   };
 
-  runTimer = () => {
-    const { tasks } = this.state;
-    const newTasks = tasks.map((el) => {
-      if (el.time === 0) {
-        return el;
-      }
-      if (!el.pause) {
-        el.time -= 1;
-      }
-      return el;
-    });
+  addTimerId = (taskId, timerId) => {
+    const { idTimers } = this.state;
+    const newItem = {
+      idTask: taskId,
+      idTimer: timerId
+    };
+    let newArr = [];
+    const prev = idTimers.filter((item) => item.idTask !== newItem.idTask);
+    newArr = [...prev, newItem];
 
-    this.setState({ tasks: newTasks });
+    this.setState({ idTimers: newArr });
   };
 
-  stopTimer = (id) => {
-    this.setState(({ tasks }) => ({
-      tasks: this.togglePause(tasks, id, true)
-    }));
+  stopTimer = (timerID) => {
+    const valueIdTimer = timerID.idTimer;
+    clearInterval(valueIdTimer);
   };
 
   startTimer = (id) => {
-    this.setState(({ tasks }) => ({
-      tasks: this.togglePause(tasks, id, false)
-    }));
+    let interval = 0;
+    interval = setInterval(() => {
+      this.setState(({ tasks }) => {
+        const newTasks = tasks.map((task) => {
+          if (task.id === id) {
+            if (task.time !== 0) {
+              task.time -= 1;
+            }
+            if (task.time === 0) {
+              task.done = true;
+            }
+          }
+          return task;
+        });
+        return {
+          tasks: newTasks
+        };
+      });
+    }, 1000);
+    this.addTimerId(id, interval);
   };
 
-  togglePause = (tasks, id, isPause) => {
-    const idx = tasks.findIndex((el) => el.id === id);
-    const newObj = [{ ...tasks[idx], pause: isPause }];
-    return [...tasks.slice(0, idx), ...newObj, ...tasks.slice(idx + 1)];
+  toggleActiveTimer = (id) => {
+    this.setState(({ tasks }) => {
+      const newTasks = tasks.map((task) => {
+        if (task.id === id) {
+          task.isRunTimer = !task.isRunTimer;
+        }
+        return task;
+      });
+      return {
+        tasks: newTasks
+      };
+    });
   };
 
   render() {
-    const { tasks, filter } = this.state;
+    const { tasks, filter, idTimers } = this.state;
+
     const visibleItems = this.filter(tasks, filter);
     const countItems = tasks.filter((el) => !el.done).length;
 
@@ -146,8 +183,12 @@ class App extends Component {
             tasks={visibleItems}
             onDeleted={this.deleteItem}
             onToggleDone={this.onToggleDone}
+            toggleIsEditTask={this.toggleIsEditTask}
+            onEditTask={this.onEditTask}
             stopTimer={this.stopTimer}
             startTimer={this.startTimer}
+            idTimers={idTimers}
+            toggleActiveTimer={this.toggleActiveTimer}
           />
           <Footer
             countItems={countItems}

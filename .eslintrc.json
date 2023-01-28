@@ -36,7 +36,8 @@
     "react/prop-types": "off",
     "react/no-unused-class-component-methods": "off",
     "no-param-reassign": "off",
-    "jsx-a11y/no-noninteractive-element-interactions": "off"
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "jsx-a11y/control-has-associated-label": "off"
 	},
 	"settings": {
     "react": {

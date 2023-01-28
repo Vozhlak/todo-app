@@ -37,3 +37,9 @@
 	width: 15%;
 	padding-left: 16px;
 }
+
+.error {
+	padding-left: 60px;
+	color: tomato;
+	font-size: 16px;
+}
