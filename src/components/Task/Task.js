@@ -4,7 +4,7 @@ import './Task.css';
 import Timer from '../Timer/Timer';
 import TaskEditingForm from '../TaskEditingForm/TaskEditingForm';
 
-function Task({
+const Task = ({
   id,
   label,
   done,
@@ -14,21 +14,24 @@ function Task({
   toggleIsEditTask,
   onEditTask,
   time,
-  startTimer,
-  stopTimer,
   toggleActiveTimer,
   isRunTimer,
-  isTimer
-}) {
+  isTimer,
+  addTimerId,
+  getIdTimer,
+  runTimer
+}) => {
   const date = formatDistanceToNow(dateCreate, { includeSeconds: true });
   const timer = isTimer ? (
     <Timer
-      startTimer={startTimer}
-      stopTimer={stopTimer}
+      id={id}
       time={time}
       toggleActiveTimer={toggleActiveTimer}
       isRunTimer={isRunTimer}
       done={done}
+      addTimerId={addTimerId}
+      getIdTimer={getIdTimer}
+      runTimer={runTimer}
     />
   ) : null;
 
@@ -67,6 +70,6 @@ function Task({
       />
     </>
   );
-}
+};
 
 export default Task;

@@ -1,57 +1,36 @@
-import { Component } from 'react';
+/* eslint-disable no-unused-vars */
+import { useState, useEffect } from 'react';
 
-class Timer extends Component {
-  state = {
-    isActiveBtnPlay: false,
-    isActiveBtnPause: true
+const Timer = ({
+  id: idTask,
+  done,
+  time,
+  toggleActiveTimer,
+  getIdTimer,
+  isRunTimer,
+  runTimer
+}) => {
+  const [status, setStatus] = useState('play');
+  const startTimer = () => {
+    runTimer(idTask, time);
+    toggleActiveTimer(idTask);
   };
 
-  componentDidMount() {
-    const { isRunTimer } = this.props;
-    if (isRunTimer) {
-      this.setState({ isActiveBtnPlay: true, isActiveBtnPause: false });
-    } else {
-      this.setState({ isActiveBtnPlay: false, isActiveBtnPause: true });
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const { done: prevDone } = prevProps;
-    const { done, stopTimer } = this.props;
-
-    if (done !== prevDone) {
-      if (done) {
-        this.setState({ isActiveBtnPlay: true, isActiveBtnPause: true });
-        stopTimer();
-      } else {
-        this.setState({ isActiveBtnPlay: false, isActiveBtnPause: true });
-      }
-    }
-  }
-
-  isDone = (done) => {
-    const { stopTimer } = this.props;
-    if (done) {
-      this.setState({ isActiveBtnPlay: true, isActiveBtnPause: true });
-      stopTimer();
-    } else {
-      this.setState({ isActiveBtnPlay: true, isActiveBtnPause: true });
-    }
+  const stopTimer = () => {
+    clearInterval(getIdTimer(idTask));
+    toggleActiveTimer(idTask);
   };
 
-  toggleActiveBtn = (btn) => {
-    const { startTimer, stopTimer, toggleActiveTimer } = this.props;
+  const toggleActiveBtn = (btn) => {
     switch (btn) {
       case 'play': {
-        this.setState({ isActiveBtnPlay: true, isActiveBtnPause: false });
+        setStatus('pause');
         startTimer();
-        toggleActiveTimer();
         break;
       }
       case 'pause': {
-        this.setState({ isActiveBtnPlay: false, isActiveBtnPause: true });
+        setStatus('play');
         stopTimer();
-        toggleActiveTimer();
         break;
       }
       default:
@@ -61,36 +40,46 @@ class Timer extends Component {
     }
   };
 
-  render() {
-    const { time } = this.props;
-    const { isActiveBtnPlay, isActiveBtnPause } = this.state;
+  const formatTime = `${Math.floor(time / 60)
+    .toString()
+    .padStart(2, '0')}:${Math.floor(time % 60)
+    .toString()
+    .padStart(2, '0')}`;
 
-    const formatTime = `${Math.floor(time / 60)
-      .toString()
-      .padStart(2, '0')}:${Math.floor(time % 60)
-      .toString()
-      .padStart(2, '0')}`;
+  useEffect(() => {
+    if (done || time === 0) {
+      if (isRunTimer) {
+        stopTimer();
+      }
+      setStatus('');
+    } else if (isRunTimer) {
+      setStatus('pause');
+    } else {
+      setStatus('play');
+    }
+  }, [done]);
 
-    return (
-      <>
+  return (
+    <>
+      {status === 'play' && (
         <button
           className='icon icon-play'
           type='button'
           aria-label='btn-play-timer'
-          disabled={isActiveBtnPlay}
-          onClick={() => this.toggleActiveBtn('play')}
+          onClick={() => toggleActiveBtn('play')}
         />
+      )}
+      {status === 'pause' && (
         <button
           className='icon icon-pause disabled'
           type='button'
           aria-label='btn-pause-timer'
-          disabled={isActiveBtnPause}
-          onClick={() => this.toggleActiveBtn('pause')}
+          onClick={() => toggleActiveBtn('pause')}
         />
-        {formatTime}
-      </>
-    );
-  }
-}
+      )}
+      {formatTime}
+    </>
+  );
+};
 
 export default Timer;

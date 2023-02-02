@@ -1,67 +1,52 @@
-import { Component } from 'react';
+import { useState } from 'react';
 
-class TaskEditingForm extends Component {
-  state = {
-    newLabelTask: '',
-    prevLabelTask: '',
-    isError: false
-  };
+const TaskEditingForm = ({ toggleIsEditTask, onEditTask, id, labelTask }) => {
+  const [newLabelTask, setNewLabelTask] = useState(labelTask);
+  const [isError, setIsError] = useState(false);
 
-  componentDidMount() {
-    const { labelTask } = this.props;
-    this.setState({ newLabelTask: labelTask, prevLabelTask: labelTask });
-  }
-
-  onChange = (e) => {
+  const onChange = (e) => {
     const { value } = e.target;
-    this.setState({ newLabelTask: value });
+    setNewLabelTask(value);
   };
 
-  onClickEnterAndEsc = (e) => {
-    const { toggleIsEditTask, onEditTask, id } = this.props;
-    const { newLabelTask, prevLabelTask } = this.state;
+  const onClickEnterAndEsc = (e) => {
     if (e.keyCode === 13) {
       if (newLabelTask !== '') {
         onEditTask(id, newLabelTask);
         toggleIsEditTask();
       } else {
-        this.setState({ isError: true });
-        setTimeout(() => this.setState({ isError: false }), 2500);
+        setIsError(true);
+        setTimeout(() => setIsError(false), 2500);
       }
     }
     if (e.keyCode === 27) {
-      onEditTask(id, prevLabelTask);
-      this.setState({ newLabelTask: prevLabelTask });
+      setNewLabelTask(labelTask);
       toggleIsEditTask();
     }
   };
 
-  render() {
-    const { newLabelTask, isError } = this.state;
-
-    return (
-      <>
-        <input
-          className='edit'
-          type='text'
-          value={newLabelTask}
-          onChange={this.onChange}
-          onKeyDown={(e) => this.onClickEnterAndEsc(e)}
-          autoFocus
-        />
-        {isError && (
-          <span
-            style={{
-              paddingLeft: 42,
-              color: 'red',
-              fontSize: 14
-            }}>
-            Error
-          </span>
-        )}
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <input
+        className='edit'
+        type='text'
+        value={newLabelTask}
+        onChange={onChange}
+        onKeyDown={(e) => onClickEnterAndEsc(e)}
+        autoFocus
+      />
+      {isError && (
+        <span
+          style={{
+            paddingLeft: 42,
+            color: 'red',
+            fontSize: 14
+          }}>
+          Error
+        </span>
+      )}
+    </>
+  );
+};
 
 export default TaskEditingForm;

@@ -1,121 +1,112 @@
-import { Component } from 'react';
+import { useState } from 'react';
 
 import './NewTaskForm.css';
-import PropTypes from 'prop-types';
 
-export default class NewTaskForm extends Component {
-  state = {
-    value: '',
-    min: '',
-    sec: '',
-    error: {
-      isError: false,
-      textError: ''
-    }
+const NewTaskForm = ({ tasks, setTasks }) => {
+  const [valueInput, setValueInput] = useState('');
+  const [min, setMin] = useState('');
+  const [sec, setSec] = useState('');
+  const [error, setError] = useState(false);
+  const [errorText, setTextError] = useState('');
+
+  const changeInput = (e) => {
+    setValueInput(e.target.value);
   };
 
-  changeInput = (e) => {
-    this.setState({ value: e.target.value });
-  };
-
-  changeInputMin = (e) => {
+  const changeInputMin = (e) => {
     const { value } = e.target;
     const newValue = value.substr(0, 2);
     if (!Number.isNaN(Number(newValue))) {
-      this.setState({ min: newValue });
+      setMin(newValue);
     }
   };
 
-  changeInputSec = (e) => {
+  const changeInputSec = (e) => {
     const { value } = e.target;
     const newValue = value.substr(0, 2);
-
     if (!Number.isNaN(Number(newValue))) {
-      this.setState({ sec: newValue });
+      setSec(newValue);
     }
   };
 
-  onClickEnter = (e) => {
-    const { value, min = 0, sec = 0 } = this.state;
-    const { onAddItem } = this.props;
+  const renderError = (text) => {
+    setError(true);
+    setTextError(text);
+    setTimeout(() => {
+      setTextError('');
+      setError(false);
+    }, 2500);
+  };
+
+  const createItem = (label, dateCreate = new Date()) => ({
+    id:
+      new Date().getMilliseconds() +
+      Math.floor(Math.random() * 1000000 + 1000000),
+    label,
+    dateCreate,
+    time: 0,
+    done: false,
+    isEdit: false,
+    isRunTimer: false,
+    isTimer: false
+  });
+
+  const onAddItem = (text, time = 0) => {
+    const newItem = createItem(text);
+    newItem.time = Number.isNaN(time) ? 0 : time;
+    newItem.isTimer = time > 0;
+    const newData = [newItem, ...tasks];
+    setTasks(newData);
+  };
+
+  const onClickEnter = (e) => {
     if (e.keyCode === 13) {
-      if (value !== '' && min <= 59) {
-        onAddItem(value, parseInt(min, 10) * 60 + parseInt(sec, 10));
+      if (valueInput !== '' && min <= 59 && sec <= 60) {
+        onAddItem(valueInput, parseInt(min, 10) * 60 + parseInt(sec, 10));
 
-        this.setState({
-          value: '',
-          min: '',
-          sec: ''
-        });
+        setValueInput('');
+        setMin('');
+        setSec('');
       }
 
-      if (value === '') {
-        this.renderError('Вы не указали что хотите сделать!');
+      if (valueInput === '') {
+        renderError('Вы не указали что хотите сделать!');
       } else if (min >= 60) {
-        this.renderError('Время ограниченно до 59 минут');
+        renderError('Время ограниченно до 59 минут');
       } else if (sec >= 61) {
-        this.renderError('В минуте 60 секунд');
+        renderError('В минуте 60 секунд');
       }
     }
   };
 
-  renderError = (text) => {
-    this.setState((error) => {
-      const newError = { ...error, isError: true, textError: text };
-      return {
-        error: newError
-      };
-    });
-    setTimeout(
-      () =>
-        this.setState((error) => {
-          const newError = { ...error, isError: false, textError: '' };
-          return {
-            error: newError
-          };
-        }),
-      2500
-    );
-  };
-
-  render() {
-    const { value, min, sec, error } = this.state;
-    const { isError, textError } = error;
-    return (
-      <>
-        <form
-          className='new-todo-form'
-          onKeyDown={(e) => this.onClickEnter(e)}>
-          <input
-            className='new-todo'
-            value={value}
-            placeholder='What needs to be done?'
-            onChange={this.changeInput}
-            autoFocus
-          />
-          <input
-            className='new-todo-form__timer'
-            value={min}
-            placeholder='Min'
-            onChange={this.changeInputMin}
-          />
-          <input
-            className='new-todo-form__timer'
-            value={sec}
-            placeholder='Sec'
-            onChange={this.changeInputSec}
-          />
-        </form>
-        {isError && <span className='error'>⚠ {textError}</span>}
-      </>
-    );
-  }
-}
-
-NewTaskForm.defaultProps = {
-  onAddItem: () => {}
+  return (
+    <>
+      <form
+        className='new-todo-form'
+        onKeyDown={(e) => onClickEnter(e)}>
+        <input
+          className='new-todo'
+          value={valueInput}
+          placeholder='What needs to be done?'
+          onChange={changeInput}
+          autoFocus
+        />
+        <input
+          className='new-todo-form__timer'
+          value={min}
+          placeholder='Min'
+          onChange={changeInputMin}
+        />
+        <input
+          className='new-todo-form__timer'
+          value={sec}
+          placeholder='Sec'
+          onChange={changeInputSec}
+        />
+      </form>
+      {error && <span className='error'>⚠ {errorText}</span>}
+    </>
+  );
 };
 
-NewTaskForm.propTypes = {
-  onAddItem: PropTypes.func
-};
+export default NewTaskForm;
